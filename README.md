@@ -19,7 +19,7 @@ de los nombres de las variables locales a una forma más abreviada.
 Para utilizar Luatiny, asegúrese de tener [Luamin](https://github.com/mathiasbynens/luamin) instalado:
 
 ```bash
-npm install Luamin
+npm install luamin
 ```
 
 ## Instalación

@@ -29,7 +29,7 @@ Siga estos pasos para instalar y configurar Luatiny:
 1. Clone este repositorio en su máquina local:
 
 ```bash
-git clone https://github.com/usuario/Luatiny.git
+git clone https://github.com/farias-hecdin/Luatiny.git
 ```
 
 2. Ejecute el archivo `wizard.sh` para instalar Luatiny:

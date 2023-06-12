@@ -6,69 +6,75 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-# Global Variables
-C="\e[33m? \e[0m"
-W="  "
-SCRIPT_SH="luatiny"
-SCRIPT_NAME="LuaTiny"
+# Global variables
+COLOR="\e[33m? \e[0m"
+SPACE="  "
+FILE="luatiny"
+NAME="LuaTiny"
 # PATH: If you're using Termux, please use this path as is. Only modify it if
-# ...you are not using Termux
+# you are not using Termux.
 PATH="/data/data/com.termux/files/usr/bin"
 
 
 # Module config ===============================================================
 
 # Installer
-function f_install_script() {
-  if [[ -f $PATH/$SCRIPT_SH ]]; then
+function f_installScript() {
+  if [[ -f $PATH/$FILE ]]; then
     # Delete old files
-    echo -e "$C Eliminando los archivos de la previa instalación..."
-    echo -e "$W"
-    rm -r $PATH/$SCRIPT_SH
+    echo -e "${COLOR} Eliminando los archivos de la previa instalación..."
+    echo -e "${SPACE}"
+    rm -r $PATH/${FILE}
+    wait
   fi
   # Copy files
-  echo -e "$C Instalación: Copiando los archivos en: $PATH"
-  ln -s $(pwd)/${SCRIPT_SH}.sh $PATH/$SCRIPT_SH
-  sleep 1s
-
-  echo -e "$C Operación terminada."
+  echo -e "${COLOR} Instalación: Copiando los archivos en: ${PATH}"
+  ln -s $(pwd)/${FILE}.sh $PATH/${FILE}
+  wait
+  echo -e "${COLOR} Operación terminada."
 }
+
 
 # Desinstaller
-function f_uninstall_script() {
-  if [[ -f $PATH/$SCRIPT_SH ]]; then
+function f_uninstallScript() {
+  if [[ -f $PATH/$FILE ]]; then
     # Delete files
-    echo -e "$C Desinstalación: Eliminando los archivos."
-    rm -r $PATH/$SCRIPT_SH
+    echo -e "${COLOR} Desinstalación: Eliminando los archivos..."
+    rm -r $PATH/${FILE}
+    wait
   else
-    echo -e "$C $SCRIPT_SH no instalado."
+    echo -e "${COLOR} ${FILE}.sh no instalado."
   fi
-  sleep 1s
-  echo -e "$C Operación terminada."
+  echo -e "${COLOR} Operación terminada."
 }
 
-# Start script
-function f_main() {
-  echo -e "$W"
-  echo -e "$C **** Wizard: \e[4m${SCRIPT_NAME}\e[0m ****"
-  echo -e "$C"
-  echo -e "$C ¿Qué deseas hacer?"
-  echo -e "$C$W 1) Instalar script"
-  echo -e "$C$W 2) Desinstalar script"
-  echo -e "$C$W 3) Salir"
-  echo -e "$C"
-  echo -ne "$C respuesta: "
-  read -r OPTIONS
-  echo -e "$W"
 
-  if [[ "${OPTIONS}" == 1 ]]; then
-    f_install_script
-  elif [[ "${OPTIONS}" == 2 ]]; then
-    f_uninstall_script
+# Main script
+function f_main() {
+  clear
+
+  echo -e "${SPACE}"
+  echo -e "${COLOR} **** Wizard: \e[4m${NAME}\e[0m ****"
+  echo -e "${COLOR}"
+  echo -e "${COLOR} ¿Qué deseas hacer?"
+  echo -e "${COLOR}${SPACE} 1) Instalar script"
+  echo -e "${COLOR}${SPACE} 2) Desinstalar script"
+  echo -e "${COLOR}${SPACE} 3) Salir"
+  echo -e "${COLOR}"
+  echo -ne "${COLOR} respuesta: "
+  read -r OPTION
+  echo -e "${SPACE}"
+
+  if [[ $OPTION == 1 ]]; then
+    f_installScript
+  elif [[ $OPTION == 2 ]]; then
+    f_uninstallScript
+  elif [[ $OPTION == "3" ]]; then
+    echo -e "${COLOR} Saliendo del script..."
   else
-    echo -e "$C Operación cancelada."
+    echo -e "${COLOR} Opción invalida."
   fi
-  echo -e "$W"
+  echo -e "${SPACE}"
   exit
 }
 
@@ -76,7 +82,8 @@ function f_main() {
 if [[ -d $PATH ]]; then
   f_main
 else
-  echo -e "No esta usando Termux-Android"
-  echo -e "Debes editar este archivo y cambiar el PATH="
+  echo -e "¡Parece que ha habido un problema!"
+  echo -e "No estás ejecutando este script en Termux."
+  echo -e "Por lo tanto, edita este archivo y cambiar la ruta del directorio."
   exit
 fi

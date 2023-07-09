@@ -1,55 +1,46 @@
 # Luatiny
 
-Reduce el tamaño de sus archivos Lua mediante la eliminación de los espacios
-innecesarios y la compactación del código fuente.
+Reduce the size of your Lua files by removing unnecessary whitespace and compacting the source code.
 
-# Descripción
+# Description
 
-> Este script fue creado con la motivación de optimizar la configuración de
-> Neovim, pero puede ser útil para cualquier proyecto hecho en Lua que busque
-> reducir su tamaño.
+> This script was created with the motivation of optimizing Neovim's configuration, but it can be useful for any Lua project that seeks to reduce its size.
 
-Luatiny es un script de Bash que utiliza la herramienta **Luamin** para minificar
-archivos Lua con el fin de reducir su tamaño a través de la eliminación de todos
-los comentarios y los espacios en blanco del código fuente, así como el cambio
-de los nombres de las variables locales a una forma más abreviada.
+Luatiny is a Bash script that uses the **Luamin** tool to minify Lua files in order to reduce their size through the removal of all comments and whitespace from the source code, as well as the renaming of local variable names to a more abbreviated form.
 
-## Requisitos
+## Requirements
 
-Para utilizar Luatiny, asegúrese de tener [Luamin](https://github.com/mathiasbynens/luamin) instalado:
+To use Luatiny, make sure you have [Luamin](https://github.com/mathiasbynens/luamin) installed:
 
 ```bash
 npm install luamin
 ```
 
-## Instalación
+## Installation
 
-Siga estos pasos para instalar y configurar Luatiny:
+Follow these steps to install and configure Luatiny:
 
-1. Clone este repositorio en su máquina local:
+1. Clone this repository to your local machine:
 
 ```bash
 git clone https://github.com/farias-hecdin/Luatiny.git
 ```
 
-2. Ejecute el archivo `wizard.sh` para instalar Luatiny:
+1. Run the `wizard.sh` file to install Luatiny:
 
 ```bash
-cd Luatiny
+cd Luatiny/
 ./wizard.sh
 ```
 
-3. Una vez que haya instalado Luatiny, puede ejecutar el script escribiendo el
-siguiente comando y especificando un directorio:
+3. Once you have installed Luatiny, you can run the script by typing the following command and specifying a directory:
 
 ```bash
-luatiny [DIRECTORIO]
+luatiny [DIRECTORY]
 ```
 
-4. Siga las instrucciones en pantalla para minificar sus archivos Lua.
+4. Follow the on-screen instructions to minify your Lua files.
 
+## License
 
-## Licencia
-
-Luatiny se encuentra bajo la licencia MIT. Consulte el archivo `LICENSE` para
-obtener más información.
+Luatiny is under the MIT license. See the `LICENSE` file for more information.

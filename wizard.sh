@@ -1,78 +1,81 @@
-#! /bin/bash
+#!/bin/bash
 # MIT License Copyright (c) 2023 Hecdin Farias
 
-# Module setup ================================================================
+# Module setup ----------------------------------------------------------------
 set -o errexit
 set -o nounset
 set -o pipefail
 
 # Global variables
 COLOR="\e[33m? \e[0m"
+TXGRAY="\e[37m"
+TXRED="\e[31m"
+TXYELLOW="\e[33m"
+BOLD="\e[1m"
+COEND="\e[0m"
 SPACE="  "
 FILE="luatiny"
-NAME="LuaTiny"
-# PATH: If you're using Termux, please use this path as is. Only modify it if
-# you are not using Termux.
+NAME="Luatiny"
+# PATH: "If you are using Termux, please use this path exactly as it is written.
+# Only modify it if you are not using Termux.
 PATH="/data/data/com.termux/files/usr/bin"
 
 
-# Module config ===============================================================
+# Module config ---------------------------------------------------------------
 
 # Installer
-function f_installScript() {
+function fn_installScript() {
   if [[ -f $PATH/$FILE ]]; then
     # Delete old files
-    echo -e "${COLOR} Eliminando los archivos de la previa instalación..."
+    echo -e "${COLOR}${TXYELLOW} Deleting old files from previous installation..."
     echo -e "${SPACE}"
     rm -r $PATH/${FILE}
     wait
   fi
   # Copy files
-  echo -e "${COLOR} Instalación: Copiando los archivos en: ${PATH}"
+  echo -e "${COLOR}${TXGRAY} Installing: Copying files to: ${PATH}"
   ln -s $(pwd)/${FILE}.sh $PATH/${FILE}
   wait
-  echo -e "${COLOR} Operación terminada."
+  echo -e "${COLOR}${TXGRAY} Operation completed."
 }
 
 
 # Desinstaller
-function f_uninstallScript() {
+function fn_uninstallScript() {
   if [[ -f $PATH/$FILE ]]; then
     # Delete files
-    echo -e "${COLOR} Desinstalación: Eliminando los archivos..."
+    echo -e "${COLOR}${TXGRAY} Uninstalling: Deleting files..."
     rm -r $PATH/${FILE}
     wait
   else
-    echo -e "${COLOR} ${FILE}.sh no instalado."
+    echo -e "${COLOR}${TXRED} ${FILE} not installed."
   fi
-  echo -e "${COLOR} Operación terminada."
+  echo -e "${COLOR}${TXGRAY} Operation completed."
 }
 
 
 # Main script
-function f_main() {
-  clear
-
+function fn_main() {
   echo -e "${SPACE}"
-  echo -e "${COLOR} **** Wizard: \e[4m${NAME}\e[0m ****"
+  echo -e "${COLOR}${BOLD} **** Wizard (${NAME}) **** ${COEND}"
   echo -e "${COLOR}"
-  echo -e "${COLOR} ¿Qué deseas hacer?"
-  echo -e "${COLOR}${SPACE} 1) Instalar script"
-  echo -e "${COLOR}${SPACE} 2) Desinstalar script"
-  echo -e "${COLOR}${SPACE} 3) Salir"
+  echo -e "${COLOR}${BOLD} What do you want to do? ${COEND}"
+  echo -e "${COLOR}${SPACE}${TXGRAY} 1) Install script"
+  echo -e "${COLOR}${SPACE}${TXGRAY} 2) Uninstall script"
+  echo -e "${COLOR}${SPACE}${TXGRAY} 3) Exit"
   echo -e "${COLOR}"
-  echo -ne "${COLOR} respuesta: "
+  echo -ne "${COLOR}${TXGRAY} Answer: "
   read -r OPTION
   echo -e "${SPACE}"
 
   if [[ $OPTION == 1 ]]; then
-    f_installScript
+    fn_installScript
   elif [[ $OPTION == 2 ]]; then
-    f_uninstallScript
-  elif [[ $OPTION == "3" ]]; then
-    echo -e "${COLOR} Saliendo del script..."
+    fn_uninstallScript
+  elif [[ $OPTION == 3 ]]; then
+    echo -e "${COLOR}${TXGRAY} Exiting script..."
   else
-    echo -e "${COLOR} Opción invalida."
+    echo -e "${COLOR}${TXGRAY} Invalid option."
   fi
   echo -e "${SPACE}"
   exit
@@ -80,10 +83,10 @@ function f_main() {
 
 # Check $PATH
 if [[ -d $PATH ]]; then
-  f_main
+  fn_main
 else
-  echo -e "¡Parece que ha habido un problema!"
-  echo -e "No estás ejecutando este script en Termux."
-  echo -e "Por lo tanto, edita este archivo y cambiar la ruta del directorio."
+  echo -e "${SPACE}${TXYELLOW} Looks like there was a problem!"
+  echo -e "${SPACE}${TXYELLOW} You are not running this script in Termux."
+  echo -e "${SPACE}${TXYELLOW} Therefore, edit this file and change the directory path."
   exit
 fi

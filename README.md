@@ -43,4 +43,4 @@ luatiny [DIRECTORY]
 
 ## License
 
-Luatiny is under the MIT license. See the `LICENSE` file for more information.
+Luatiny is under the MIT license. See the `LICENSE` file for more information

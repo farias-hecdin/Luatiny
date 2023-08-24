@@ -30,13 +30,13 @@ git clone https://github.com/farias-hecdin/Luatiny.git
 
 ```bash
 cd Luatiny/
-./wizard.sh
+bash wizard.sh
 ```
 
 3. Once you have installed Luatiny, you can run the script by typing the following command and specifying a directory:
 
 ```bash
-luatiny [DIRECTORY]
+luatiny [directory]
 ```
 
 4. Follow the on-screen instructions to minify your Lua files.

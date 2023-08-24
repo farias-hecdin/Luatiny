@@ -1,89 +1,83 @@
 #!/bin/bash
 # MIT License Copyright (c) 2023 Hecdin Farias
 
-# Module setup ----------------------------------------------------------------
+# Script setup ----------------------------------------------------------------
+
 set -o errexit
 set -o nounset
 set -o pipefail
 
-# Global variables
-ICON="\e[33m? \e[0m"
-TXGRAY="\e[37m"
-TXRED="\e[31m"
-TXYELLOW="\e[33m"
-BOLD="\e[1m"
-END="\e[0m"
-SPACE="  "
-filename="Luatiny.sh"
-repo_dir=$PWD
-source_file="luatiny"
-target_dir=""
+# Script definition -----------------------------------------------------------
 
-# Module config ---------------------------------------------------------------
+co_bold="\e[1m"
+co_gray="\e[37m"
+co_red="\e[31m"
+co_yellow="\e[33m"
+end="\e[0m"
+icon="\e[33m? \e[0m"
+space="  "
+
+# Main variables
+main_directory="$HOME/.local/share"
+target_directory="$HOME/.local/share/luatiny"
+script_name="luatiny"
+
 
 # Installer
-function fn_install_script() {
+function f_install_script() {
+  if [[ -d $target_directory ]]; then
     # Delete old files
-    if [[ -f "${target_dir}/${source_file}" ]]; then
-        echo -e "${ICON}${TXYELLOW} Deleting old files from previous installation..."
-        echo -e "${SPACE}"
-        rm -r "${target_dir}/${source_file}"
-        wait
-    fi
-    # Copy files
-    echo -e "${ICON}${TXGRAY} Installing: Copying files to: ${target_dir}"
-    ln -s "${repo_dir}/${source_file}.sh" "${target_dir}/${source_file}"
-    wait
-    echo -e "${ICON}${TXGRAY} Operation completed."
+    echo -e "$icon$co_yellow Deleting old files from previous installation..."
+    rm -rf "$target_directory"
+  fi
+  # Copy files
+  echo -e "$icon$co_gray Installing: Copying files to: $main_directory"
+  mkdir $script_name
+  mv $script_name $main_directory
+  cp "./${script_name}.sh" $target_directory
+  ln -s "${target_directory}/${script_name}.sh" "${target_directory}/${script_name}"
+  echo -e "$icon$co_gray Operation completed!"
 }
 
 
 # Desinstaller
-function fn_uninstall_script() {
+function f_uninstall_script() {
+  if [[ -d $target_directory ]]; then
     # Delete files
-    if [[ -f "${target_dir}/${source_file}" ]]; then
-        echo -e "${ICON}${TXGRAY} Uninstalling: Deleting files..."
-        rm -r "${target_dir}/${source_file}"
-        wait
-    else
-        echo -e "${ICON}${TXRED} ${source_file} not installed."
-    fi
-    echo -e "${ICON}${TXGRAY} Operation completed."
+    echo -e "$icon$co_gray Uninstalling: Deleting files..."
+    rm -rf "$target_directory"
+    echo -e "$icon$co_gray Operation completed!"
+  else
+    echo -e "$icon$co_red Luatiny not installed."
+  fi
 }
 
 
 # Main script
-function fn_main() {
-    echo -e "${SPACE}"
-    echo -e "${ICON}${BOLD} **** Wizard (${filename}) **** ${END}"
-    echo -e "${ICON}"
-    echo -e "${ICON}${BOLD} What do you want to do? ${END}"
-    echo -e "${ICON}${SPACE}${TXGRAY} 1) Install script"
-    echo -e "${ICON}${SPACE}${TXGRAY} 2) Uninstall script"
-    echo -e "${ICON}${SPACE}${TXGRAY} 3) Exit"
-    echo -e "${ICON}"
-    echo -ne "${ICON}${TXGRAY} Answer: "
-    read -r OPTION
-    echo -e "${SPACE}"
+function f_main() {
+  echo -e "$space"
+  echo -e "$icon$co_bold **** Wizard ($script_name) **** $end"
+  echo -e "$icon"
+  echo -e "$icon$co_bold What do you want to do? $end"
+  echo -e "$icon$space$co_gray 1) Install script"
+  echo -e "$icon$space$co_gray 2) Uninstall script"
+  echo -e "$icon$space$co_gray 3) Exit"
+  echo -e "$icon"
+  echo -ne "$icon$co_gray Answer: "
+  read -r option
+  echo -e "$space"
 
-    if [[ $OPTION == 1 ]]; then
-        fn_install_script
-    elif [[ $OPTION == 2 ]]; then
-        fn_uninstall_script
-    elif [[ $OPTION == 3 ]]; then
-        echo -e "${ICON}${TXGRAY} Exiting script..."
-    else
-        echo -e "${ICON}${TXGRAY} Invalid option."
-    fi
-    echo -e "${SPACE}"
-    exit
+  if [[ $option == 1 ]]; then
+    f_install_script
+  elif [[ $option == 2 ]]; then
+    f_uninstall_script
+  elif [[ $option == 3 ]]; then
+    echo -e "$icon$co_gray Exiting script..."
+  else
+    echo -e "$icon$co_gray Invalid option."
+  fi
+  echo -e "$space"
+  exit
 }
 
-# Change directory to "usr/bin/"
-cd $HOME
-trap 'echo "# There has been an error, directory \"usr/bin\" not found."' ERR
-cd ../usr/bin/
-
-target_dir=$PWD
-
-fn_main
+f_main

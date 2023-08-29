@@ -25,16 +25,16 @@ script_name="luatiny"
 
 # Installer
 function f_install_script() {
-  if [[ -d $target_directory ]]; then
+  if [[ -d "$target_directory" ]]; then
     # Delete old files
-    echo -e "$icon$co_yellow Deleting old files from previous installation..."
+    echo -e "$icon$co_yellow Deleting old files from previous installation... \n"
     rm -rf "$target_directory"
   fi
   # Copy files
   echo -e "$icon$co_gray Installing: Copying files to: $main_directory"
   mkdir $script_name
-  mv $script_name $main_directory
-  cp "./${script_name}.sh" $target_directory
+  mv "$script_name" "$main_directory"
+  cp "./${script_name}.sh" "$target_directory"
   ln -s "${target_directory}/${script_name}.sh" "${target_directory}/${script_name}"
   echo -e "$icon$co_gray Operation completed!"
 }
@@ -42,13 +42,13 @@ function f_install_script() {
 
 # Desinstaller
 function f_uninstall_script() {
-  if [[ -d $target_directory ]]; then
+  if [[ -d "$target_directory" ]]; then
     # Delete files
     echo -e "$icon$co_gray Uninstalling: Deleting files..."
     rm -rf "$target_directory"
     echo -e "$icon$co_gray Operation completed!"
   else
-    echo -e "$icon$co_red Luatiny not installed."
+    echo -e "$icon$co_red $script_name not installed."
   fi
 }
 
@@ -67,11 +67,11 @@ function f_main() {
   read -r option
   echo -e "$space"
 
-  if [[ $option == 1 ]]; then
+  if [[ "$option" == 1 ]]; then
     f_install_script
-  elif [[ $option == 2 ]]; then
+  elif [[ "$option" == 2 ]]; then
     f_uninstall_script
-  elif [[ $option == 3 ]]; then
+  elif [[ "$option" == 3 ]]; then
     echo -e "$icon$co_gray Exiting script..."
   else
     echo -e "$icon$co_gray Invalid option."

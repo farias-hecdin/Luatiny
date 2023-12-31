@@ -96,16 +96,15 @@ function f_minify_lua_files() {
       message="$space$bg_blue LOAD  $end$co_blue Processed files ${counter_files}/$total_files $end"
       echo -ne "$message" \\r
       # Execute Luamin
-      luamin -f "$elem" >"${elem}_tiny" ||
-        {
-          # Error handle
-          local now
-          now=$(date +'%d/%m/%Y %X')
-          ((counter_error += 1))
-          echo -e "$space$bg_red ERROR $end$co_red luamin failed for file:$end $elem"
-          echo "[ERROR][$now] $elem" >> luatiny-error.log
-          rm -rf "${elem}_tiny"
-        }
+      if ! luamin -f "$elem" >"${elem}tiny"; then
+        # Error handle
+        local now
+        now=$(date +'%d/%m/%Y %X')
+        ((counter_error += 1))
+        echo -e "$space$bg_red ERROR $end$co_red luamin failed for file:$end $elem"
+        echo "[ERROR][$now] $elem" >> luatiny-error.log
+        rm -rf "${elem}tiny"
+      fi
       wait
       sleep 0.2s
     done
